@@ -1,5 +1,5 @@
 ﻿
-namespace RunGroopWebApp.Data.Enum
+namespace SportWebApp.Data.Enum
 {
     public enum ClubCategory
     {
