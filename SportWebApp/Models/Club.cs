@@ -1,4 +1,4 @@
-﻿using RunGroopWebApp.Data.Enum;
+﻿using SportWebApp.Data.Enum;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
