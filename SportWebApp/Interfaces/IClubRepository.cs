@@ -6,6 +6,7 @@ namespace SportWebApp.Interfaces
     {
         Task<IEnumerable<Club>> GetAll();
         Task<Club> GetByIdAsync(int id);
+        Task<Club> GetByIdAsyncNoTracking(int id);
         Task<IEnumerable<Club>> GetClubByCity(String city);
         bool Add(Club club);
         bool Update(Club club);
