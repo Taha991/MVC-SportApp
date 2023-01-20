@@ -1,10 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using SportWebApp.Models;
 
 namespace SportWebApp.Data
 {
-    public class ApplictionDbContext : DbContext
+    public class ApplictionDbContext : IdentityDbContext<AppUser>
     {
         public ApplictionDbContext(DbContextOptions<ApplictionDbContext> options) : base(options)     
         {

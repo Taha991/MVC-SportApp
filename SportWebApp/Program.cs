@@ -1,8 +1,11 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RunGroopWebApp.Data;
 using SportWebApp.Data;
 using SportWebApp.Helpers;
 using SportWebApp.Interfaces;
+using SportWebApp.Models;
 using SportWebApp.Repository;
 using SportWebApp.Services;
 
@@ -18,12 +21,18 @@ builder.Services.AddDbContext<ApplictionDbContext>(options =>
 {
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+builder.Services.AddIdentity<AppUser, IdentityRole>()
+    .AddEntityFrameworkStores<ApplictionDbContext>();
+builder.Services.AddMemoryCache();
+builder.Services.AddSession();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie();
 
 var app = builder.Build();
 
 if (args.Length == 1 && args[0].ToLower() == "seeddata")
 {
-    //Seed.SeedUsersAndRolesAsync(app);
+    await Seed.SeedUsersAndRolesAsync(app);
     Seed.SeedData(app);
 }
 
