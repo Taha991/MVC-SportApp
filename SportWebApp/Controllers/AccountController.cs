@@ -51,5 +51,41 @@ namespace SportWebApp.Controllers
             TempData["Error"] = "Can't Find User , plase try again";
             return View(loginVM);
         }
+        public IActionResult Register()
+        {
+            var response = new RegisterViewModel();
+            return View(response);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Regiser(RegisterViewModel registerViewModel)
+        {
+            if(!ModelState.IsValid)return View(registerViewModel);
+
+            var user = await _userManger.FindByEmailAsync(registerViewModel.EmailAddress);
+            if (user != null)
+            {
+                TempData["Error"] = "This email address is already in use";
+                return View(registerViewModel);
+            }
+
+            var newUser = new AppUser()
+            {
+                Email = registerViewModel.EmailAddress,
+                UserName = registerViewModel.EmailAddress
+            };
+            var newUserResponse = await _userManger.CreateAsync(newUser, registerViewModel.Password);
+
+            if (newUserResponse.Succeeded)
+                await _userManger.AddToRoleAsync(newUser, UserRoles.User);
+
+            return View("Home");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManger.SignOutAsync();
+            return RedirectToAction("Index" , "Race");
+        }
     }
 }
