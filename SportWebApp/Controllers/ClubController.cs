@@ -15,7 +15,7 @@ namespace RunGroopWebApp.Controllers
         private readonly IPhotoService _photoService;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public ClubController(IClubRepository clubRepository , IPhotoService photoService, IHttpContextAccessor httpContextAccessor)
+        public ClubController(IClubRepository clubRepository, IPhotoService photoService, IHttpContextAccessor httpContextAccessor)
         {
 
             _clubRepository = clubRepository;
@@ -42,11 +42,11 @@ namespace RunGroopWebApp.Controllers
         {
             var curUserId = _httpContextAccessor.HttpContext.User.GetUserId();
             var createClubViewModel = new CreateClubViewModel { AppUserId = curUserId };
-            return View(createClubViewModel);      
+            return View(createClubViewModel);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateClubViewModel  clubVM)
+        public async Task<IActionResult> Create(CreateClubViewModel clubVM)
         {
             if (ModelState.IsValid)
             {
@@ -83,7 +83,7 @@ namespace RunGroopWebApp.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             var club = await _clubRepository.GetByIdAsync(id);
-            if(club == null) return View("Error");
+            if (club == null) return View("Error");
             var clubVM = new EditClubViewModel
             {
                 Title = club.Title,
@@ -97,38 +97,38 @@ namespace RunGroopWebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id , EditClubViewModel clubVM)
+        public async Task<IActionResult> Edit(int id, EditClubViewModel clubVM)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 ModelState.AddModelError("", "Failed to edit club");
                 return View("Edit", clubVM);
             }
             var userClub = await _clubRepository.GetByIdAsyncNoTracking(id);
 
-            if(userClub != null)
-            { 
-            try {
+            if (userClub != null)
+            {
+                try {
                     await _photoService.DeletePhotoAsync(userClub.Image);
                 }
-             catch (Exception ex)
+                catch (Exception ex)
                 {
                     ModelState.AddModelError("", "Could not delete photo");
                     return View(clubVM);
                 }
-            var photoResult = await _photoService.AddPhotoAsync(clubVM.Image);
+                var photoResult = await _photoService.AddPhotoAsync(clubVM.Image);
 
-            var club = new Club
-            {
-                Id = id,
-                Title = clubVM.Title,
-                Description = clubVM.Description,
-                Image = photoResult.Url.ToString(),
-                Address = clubVM.Address,
-                AddressId = clubVM.AdressId
-            };
-            _clubRepository.Update(club);
-            return RedirectToAction("Index");
+                var club = new Club
+                {
+                    Id = id,
+                    Title = clubVM.Title,
+                    Description = clubVM.Description,
+                    Image = photoResult.Url.ToString(),
+                    Address = clubVM.Address,
+                    AddressId = clubVM.AdressId
+                };
+                _clubRepository.Update(club);
+                return RedirectToAction("Index");
             }
             else
             {
@@ -136,6 +136,21 @@ namespace RunGroopWebApp.Controllers
             }
         }
 
+        public async Task<IActionResult> Delete(int id)
+        {
+            var clubDetails = await _clubRepository.GetByIdAsync(id);
+            if (clubDetails != null) return View("Error");
+            return View(clubDetails);
+        }
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteClub(int id)
+        {
+            var clubDetails = await _clubRepository.GetByIdAsync(id);
+            if (clubDetails == null) return View("Error");
+
+            _clubRepository.Delete(clubDetails);
+            return RedirectToAction("Index");
+        }
     }
 
 }       
