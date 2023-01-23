@@ -13,5 +13,7 @@ namespace SportWebApp.ViewModels
         public IFormFile Image { get; set; }
         public ClubCategory CLubCategory { get; set; }
 
+        public string AppUserId { get; set; }
+
     }
 }

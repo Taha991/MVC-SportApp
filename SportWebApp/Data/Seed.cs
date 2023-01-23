@@ -6,7 +6,7 @@ using SportWebApp.Data;
 using SportWebApp.Models;
 using Microsoft.AspNetCore.Identity;
 
-namespace RunGroopWebApp.Data
+namespace SportWebApp.Data
 {
     public class Seed
     {
@@ -143,14 +143,14 @@ namespace RunGroopWebApp.Data
                         {
                             Street = "123 Main St",
                             City = "Charlotte",
-                            State = "EG"
+                            State = "NC"
                         }
                     };
                     await userManager.CreateAsync(newAdminUser, "Coding@1234?");
                     await userManager.AddToRoleAsync(newAdminUser, UserRoles.Admin);
                 }
 
-                string appUserEmail = "user@gmail.com";
+                string appUserEmail = "user@etickets.com";
 
                 var appUser = await userManager.FindByEmailAsync(appUserEmail);
                 if (appUser == null)
