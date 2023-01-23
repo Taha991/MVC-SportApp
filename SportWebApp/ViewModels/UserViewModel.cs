@@ -7,6 +7,7 @@
 
         // pace = how fast is take to run  , how much u run in week
         public  int?  Pace { get; set; }
-        public int? Mileage { get; set; }    
+        public int? Mileage { get; set; }
+        public string ProfileImageUrl { get; set; }
     }
 }

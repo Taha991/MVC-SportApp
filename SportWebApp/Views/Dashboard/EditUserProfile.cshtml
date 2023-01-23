@@ -1,1 +1,34 @@
-﻿
+﻿@using SportWebApp.ViewModels
+@model EditUserDashboardViewModel
+
+<form method="post" asp-action="EditUserProfile" enctype="multipart/form-data">
+	<input type="hidden" id="Id" name="Id" asp-for="Id" />
+	<div class="form-group" >
+		<label asp-for="Pace">Pace</label>
+		<input asp-for="Pace" class="form-control" placeholder="Pace" />
+		<Span asp-validation-for="Pace" class="text_danger"></Span>
+	</div>
+	<div class="form-group">
+		<label asp-for="Mileage">Mileage</label>
+		<input asp-for="Mileage" class="form-control" placeholder="Mileage" />
+		<Span asp-validation-for="Mileage" class="text_danger"></Span>
+	</div>
+	<div class="form-group">
+		<label asp-for="City">City</label>
+		<input asp-for="City" class="form-control" placeholder="City" />
+		<Span asp-validation-for="City" class="text_danger"></Span>
+	</div>
+	<div class="form-group">
+		<label asp-for="State">State</label>
+		<input asp-for="State" class="form-control" placeholder="State" />
+		<Span asp-validation-for="State" class="text_danger"></Span>
+	</div>
+	<div class="form-group">
+		<label asp-for="Image">Profile Image</label>
+		<input asp-for="Image" type="file" class="form-control" placeholder="Image" />
+		<Span asp-validation-for="Image" class="text_danger"></Span>
+	</div>
+	<button type="submit" class="btn btn-primary">Submit</button>
+	
+	
+</form>
